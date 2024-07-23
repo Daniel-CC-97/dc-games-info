@@ -32,7 +32,7 @@ export default async function GamePage({ params }: GamePageProps) {
       <h2 className="font-bold text-xl">Games you might like</h2>
       <div className="flex gap-2">
         {similar_games.map((game : number) => (
-            <SimilarGame id={game.toString()}></SimilarGame>
+            <SimilarGame key={game} id={game.toString()}></SimilarGame>
         ))}
       </div>
     </div>
