@@ -6,10 +6,12 @@ interface GamesCoverProps {
   small: boolean;
 }
 
-export default async function GamesCover({ id, small }: GamesCoverProps) {
+export default async function GameCover({ id, small }: GamesCoverProps) {
+    console.log('id: ', id);
   try {
     const coverData = await fetchCover(id);
     
+
     if (!coverData || coverData.length === 0) {
       return <p>No cover available</p>;
     }
@@ -22,13 +24,14 @@ export default async function GamesCover({ id, small }: GamesCoverProps) {
     const containerWidth = small ? 150 : 300;
 
     return (
-      <div style={{ height: containerHeight, width: containerWidth, position: 'relative' }}>
+      <div className="relative" style={{ height: containerHeight, width: containerWidth }}>
         <Image
           src={imageUrl}
           alt={`Cover image for game with ID ${id}`}
           fill={true}
           objectFit="cover" // Ensure the image covers the area without distortion
           quality={100}
+          className="transition-transform duration-300 ease-in-out transform hover:scale-102"
         />
       </div>
     );
@@ -37,6 +40,7 @@ export default async function GamesCover({ id, small }: GamesCoverProps) {
     return <p>Error loading cover</p>;
   }
 }
+
 
 
 

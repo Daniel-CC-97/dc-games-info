@@ -1,5 +1,5 @@
 import { fetchGameById } from "@/lib/api";
-import GamesCover from "./game";
+import GameCover from "./game-cover";
 import Link from "next/link";
 
 interface SimilarGameProps {
@@ -13,7 +13,7 @@ export default async function SimilarGame( {id} : SimilarGameProps) {
     return (
         <div className="flex flex-col items-center">
             <Link href={`/game/${id}`} passHref>
-                <GamesCover id={game.cover} small={true}></GamesCover>
+                <GameCover id={game.cover} small={true}></GameCover>
                 <h4>{game.name}</h4>
             </Link>
         </div>
