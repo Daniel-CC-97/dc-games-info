@@ -1,23 +1,52 @@
 import GameCover from '@/app/components/game-cover';
+import StarRating from './star-rating';
+import GameThemes from './themes';
 
 interface GameDetailsProps {
   name: string;
   cover: number;
-  storyline: string;
   summary: string;
+  total_rating: number;
+  total_rating_count: number;
+  first_release_date: number; // Unix timestamp
+  themes: [number]
 }
 
-const GameDetails: React.FC<GameDetailsProps> = ({ name, cover, storyline, summary }) => (
-  <div className="px-16 py-4 flex flex-col gap-2 overflow-hidden">
-    <h1 className="font-bold text-2xl">{name}</h1>
-    <div className="flex gap-2 h-[400px]">
-      <div className="relative w-[300px] h-[400px]">
-        <GameCover id={cover} small={false} />
+const GameDetails: React.FC<GameDetailsProps> = ({
+  name,
+  cover,
+  summary,
+  total_rating,
+  total_rating_count,
+  first_release_date,
+  themes
+}) => {
+  // Convert Unix timestamp to a human-readable date
+  const releaseDate = new Date(first_release_date * 1000).toLocaleDateString(); // Convert to milliseconds
+
+  return (
+    <div className="flex flex-col gap-4 overflow-hidden">
+      <h1 className="font-bold text-2xl">{name}</h1>
+      <div className="flex gap-2">
+        <div className="relative">
+          <GameCover id={cover} small={false} />
+        </div>
+        <div>
+          <div className="flex items-center">
+            <StarRating rating={total_rating} />
+            <span className="ml-2">({total_rating_count} votes)</span>
+          </div>
+          <p className="mt-2 text-sm"><span className="font-bold text-base">Release Date:</span> {releaseDate}</p> {/* Display formatted date */}
+        <GameThemes themes={themes}></GameThemes>
+        </div>
       </div>
-      <p className="bg-darkGrey p-2 rounded h-1/2 overflow-scroll">{storyline}</p>
+      <div>
+        <h2 className="font-bold text-xl">Summary</h2>
+        <p className="bg-darkGrey text-white p-2 rounded">{summary}</p>
+      </div>
     </div>
-    <p className="bg-darkGrey p-2 rounded">{summary}</p>
-  </div>
-);
+  );
+};
 
 export default GameDetails;
+

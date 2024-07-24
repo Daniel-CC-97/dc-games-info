@@ -19,9 +19,17 @@ const config: Config = {
         link: '#3B82F6', // Blue (unchanged)
         border: '#4B5563', // Darker grey (unchanged)
         silver: '#D1D5DB', // Silver
-        darkGrey: '#374151', // Dark grey for more variety
+        darkGrey: '#1a2330', // Dark grey for more variety
       },
     },
+      width: {
+        'cover-small': '150px',
+        'cover-large': '300px',
+      },
+      height: {
+        'cover-small': '200px',
+        'cover-large': '400px',
+      },
   },
   plugins: [],
 };

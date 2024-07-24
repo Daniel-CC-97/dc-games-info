@@ -1,46 +1,45 @@
 import { fetchCover } from '@/lib/api';
 import Image from 'next/image';
 
-interface GamesCoverProps {
+interface GameCoverProps {
   id: number;
   small: boolean;
 }
 
-export default async function GameCover({ id, small }: GamesCoverProps) {
-    console.log('id: ', id);
+export default async function GameCover({ id, small }: GameCoverProps) {
   try {
     const coverData = await fetchCover(id);
     
-
     if (!coverData || coverData.length === 0) {
-      return <p>No cover available</p>;
+      return <p className="text-center text-sm">No cover available</p>;
     }
 
     const gameCover = coverData[0]; // Assuming fetchCover returns an array
     const imageUrl = `https://images.igdb.com/igdb/image/upload/t_cover_big/${gameCover.image_id}.jpg`;
 
-    // Determine the size based on the 'small' prop
-    const containerHeight = small ? 200 : 400;
-    const containerWidth = small ? 150 : 300;
+    // Use responsive height and width
+    let containerHeight: string | number = '';
+    let containerWidth: string | number = '';
+
+    if ( small ) {
+      containerHeight = small ? 200 : 400;
+      containerWidth = small ? 150 : 300;
+    }
 
     return (
-      <div className="relative" style={{ height: containerHeight, width: containerWidth }}>
+      <div className="relative w-cover-small h-cover-small lg:w-cover-large lg:h-cover-large" style={{ height: containerHeight, width: containerWidth }}>
         <Image
           src={imageUrl}
           alt={`Cover image for game with ID ${id}`}
           fill={true}
-          objectFit="cover" // Ensure the image covers the area without distortion
+          objectFit='cover'
           quality={100}
-          className="transition-transform duration-300 ease-in-out transform hover:scale-102"
+          className="transition-transform duration-300 ease-in-out transform hover:scale-105"
         />
       </div>
     );
   } catch (error) {
     console.error('Error fetching cover:', error);
-    return <p>Error loading cover</p>;
+    return <p className="text-center text-sm">Error loading cover</p>;
   }
 }
-
-
-
-

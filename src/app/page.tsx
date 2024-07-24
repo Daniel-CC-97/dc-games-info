@@ -6,7 +6,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-        <div className="p-4 flex flex-col gap-4 overflow-hidden">
+        <div className="p-1 lg:p-2 flex flex-col gap-4 overflow-hidden">
           <GamesList title='Top 10 Games' fetchFunction={fetchTopGames}></GamesList>
           <GamesList title='New Games' fetchFunction={fetchNewestGames}></GamesList>
           <GamesList title='Top 10 Multiplayer Games' fetchFunction={fetchTopMultiplayerGames}></GamesList>

@@ -137,7 +137,7 @@ export async function fetchTopMultiplayerGames() {
 // Fetch top coop games
 export async function fetchTopCoopGames() {
     // First query: Try to fetch games with more than 500 total ratings
-    const queryWithRatingThreshold = `
+    const query = `
       fields name, cover;
       sort total_rating desc;
       where total_rating_count > 10 & game_modes = [3];
@@ -151,7 +151,7 @@ export async function fetchTopCoopGames() {
         'Client-ID': process.env.NEXT_PUBLIC_IGDB_CLIENT_ID as string,
         'Content-Type': 'application/json'
       },
-      body: queryWithRatingThreshold,
+      body: query,
     });
   
     if (!response.ok) {
@@ -159,5 +159,39 @@ export async function fetchTopCoopGames() {
     }
   
     return response.json();
+}
+
+
+export async function fetchThemes(themeArray: number[]) {
+  // Ensure themeArray is formatted as a comma-separated list
+  const themeIds = themeArray.join(',');
+  
+  // Construct the query string
+  const query = `
+    fields name;
+    where id = (${themeIds});
+  `;
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/themes`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${IGDB_ACCESS_TOKEN}`,
+        'Client-ID': process.env.NEXT_PUBLIC_IGDB_CLIENT_ID as string,
+        'Content-Type': 'text/plain', // Use 'text/plain' if the API expects plain text
+      },
+      body: query,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text(); // Capture error response text
+      throw new Error(`Failed to fetch themes: ${response.status} ${response.statusText} - ${errorText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching themes:', error);
+    throw error;
+  }
 }
 

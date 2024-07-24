@@ -1,11 +1,15 @@
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 interface StarRatingProps {
-  rating: number; // total rating out of 100
+  rating?: number; // rating is now optional
   maxStars?: number; // default is 5 stars
 }
 
 const StarRating: React.FC<StarRatingProps> = ({ rating, maxStars = 5 }) => {
+  if (rating === undefined || rating <= 0) {
+    return <p>No rating available</p>;
+  }
+
   const starRating = (rating / 100) * maxStars;
   const fullStars = Math.floor(starRating);
   const halfStar = starRating - fullStars > 0.5 ? 1 : 0;
@@ -24,3 +28,4 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxStars = 5 }) => {
 };
 
 export default StarRating;
+

@@ -14,7 +14,7 @@ export default async function SimilarGame( {id} : SimilarGameProps) {
         <div className="flex flex-col items-center">
             <Link href={`/game/${id}`} passHref>
                 <GameCover id={game.cover} small={true}></GameCover>
-                <h4>{game.name}</h4>
+                <h4 className="text-white text-center">{game.name}</h4>
             </Link>
         </div>
     );
