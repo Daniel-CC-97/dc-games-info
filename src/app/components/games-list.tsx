@@ -8,9 +8,9 @@ export default async function GamesList() {
   const games = await fetchTopGames();
   
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 overflow-hidden">
       <h1 className="font-bold text-2xl">Top 10 Games</h1>
-      <ul className="flex gap-3">
+      <ul className="flex gap-3 overflow-scroll">
         {games.length > 0 ? (
           games.map((game : Game) => (
             <li key={game.id} className="flex flex-col items-center">

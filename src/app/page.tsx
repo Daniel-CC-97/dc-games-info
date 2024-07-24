@@ -4,7 +4,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-        <div className="p-4">
+        <div className="p-4 overflow-hidden">
           {/* Main content visible after the welcome screen */}
           <GamesList></GamesList>
         </div>

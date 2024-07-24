@@ -22,7 +22,7 @@ export default async function GamesCover({ id, small }: GamesCoverProps) {
     const containerWidth = small ? 150 : 300;
 
     return (
-      <div className={`relative h-[${containerHeight}px] w-[${containerWidth}px]`}>
+      <div style={{ height: containerHeight, width: containerWidth, position: 'relative' }}>
         <Image
           src={imageUrl}
           alt={`Cover image for game with ID ${id}`}
@@ -37,5 +37,6 @@ export default async function GamesCover({ id, small }: GamesCoverProps) {
     return <p>Error loading cover</p>;
   }
 }
+
 
 
