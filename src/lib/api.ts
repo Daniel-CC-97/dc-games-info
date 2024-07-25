@@ -195,3 +195,34 @@ export async function fetchThemes(themeArray: number[]) {
   }
 }
 
+export async function fetchPlatforms(platformArray: number[]) {
+    const platformIds = platformArray.join(',');
+    const query = `
+    fields name;
+    where id = (${platformIds});
+    `;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/platforms`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${IGDB_ACCESS_TOKEN}`,
+                'Client-ID': process.env.NEXT_PUBLIC_IGDB_CLIENT_ID as string,
+                'Content-Type': 'text/plain'
+            },
+            body: query
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to fetch platforms: ${response.status} ${response.statusText} - ${errorText}`)
+        }
+
+        return response.json();
+
+    } catch (error) {
+        console.error('Error fetching platforms: ', error)
+        throw error;
+    }
+}
+

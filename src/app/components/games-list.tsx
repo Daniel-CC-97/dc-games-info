@@ -11,7 +11,7 @@ export default async function GamesList({ title, fetchFunction }: GamesListProps
   const games = await fetchFunction();
 
   return (
-    <div className="flex flex-col gap-2 overflow-hidden p-2">
+    <div className="flex flex-col gap-2 overflow-hidden">
       <h1 className="font-bold text-xl">{title}</h1>
       <ul className="flex gap-2 lg:gap-4 overflow-x-auto">
         {games.length > 0 ? (
