@@ -12,7 +12,7 @@ interface GamePageProps {
 export default async function GamePage({ params }: GamePageProps) {
     const { id } = params;
     const game = await fetchGameById(id);
-
+    
     if (!game) {
       return <p>Game not found</p>;
     }

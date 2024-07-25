@@ -1,4 +1,4 @@
-import { fetchPlatforms } from '@/lib/api';
+import { fetchPlatformsById } from '@/lib/api';
 
 interface GamePlatformsProps {
   platforms: number[];
@@ -6,7 +6,7 @@ interface GamePlatformsProps {
 
 export default async function GamePlatforms({ platforms }: GamePlatformsProps) {
   try {
-    const platformsData = await fetchPlatforms(platforms);
+    const platformsData = await fetchPlatformsById(platforms);
     
     if (!platformsData || platformsData.length === 0) {
       return <p>No Platforms available</p>;

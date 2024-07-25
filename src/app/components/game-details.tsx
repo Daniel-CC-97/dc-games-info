@@ -28,7 +28,7 @@ const GameDetails: React.FC<GameDetailsProps> = ({
   const releaseDate = new Date(first_release_date * 1000).toLocaleDateString(); // Convert to milliseconds
 
   return (
-    <div className="flex flex-col gap-4 overflow-hidden">
+    <div className="flex flex-col gap-2 overflow-hidden">
       <h1 className="font-bold text-2xl">{name}</h1>
       <div className="flex gap-2">
         <div className="relative">

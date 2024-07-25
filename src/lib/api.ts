@@ -77,11 +77,6 @@ export async function fetchGameById(id: string) {
     return games.length > 0 ? games[0] : null;
   }
 
-  export async function fetchNewstGames() {
-    const query = `
-    `
-  }
-
 // Fetch the 10 newest games
 export async function fetchNewestGames() {
     const query = `
@@ -162,7 +157,7 @@ export async function fetchTopCoopGames() {
 }
 
 
-export async function fetchThemes(themeArray: number[]) {
+export async function fetchThemesById(themeArray: number[]) {
   // Ensure themeArray is formatted as a comma-separated list
   const themeIds = themeArray.join(',');
   
@@ -195,7 +190,7 @@ export async function fetchThemes(themeArray: number[]) {
   }
 }
 
-export async function fetchPlatforms(platformArray: number[]) {
+export async function fetchPlatformsById(platformArray: number[]) {
     const platformIds = platformArray.join(',');
     const query = `
     fields name;
@@ -225,4 +220,71 @@ export async function fetchPlatforms(platformArray: number[]) {
         throw error;
     }
 }
+
+async function fetchFromIGDB(endpoint: string, query: string) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${IGDB_ACCESS_TOKEN}`,
+                'Client-ID': process.env.NEXT_PUBLIC_IGDB_CLIENT_ID as string,
+                'Content-Type': 'text/plain',
+            },
+            body: query,
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to fetch data: ${response.statusText} - ${errorText}`);
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error fetching data: ', error);
+        throw error;
+    }
+}
+
+export async function fetchThemes() {
+    const query = 'fields id, name; limit 500;';
+    return fetchFromIGDB('themes', query);
+}
+
+export async function fetchGenres() {
+    const query = 'fields id, name; limit 500;';
+    return fetchFromIGDB('genres', query);
+}
+
+export async function fetchPlatforms() {
+    const query = 'fields id, name, updated_at; limit 500; where id = (4 , 5, 6, 8, 9, 12, 20, 21, 37, 41, 48, 82, 130, 162, 163, 165, 167, 169, 384, 385, 386, 471);'; // Sort by most recent update
+    return fetchFromIGDB('platforms', query);
+}
+
+
+export async function fetchGamesByFilters(genreArray: number[], themeArray: number[], platformArray: number[]) {
+    const genreConditions = genreArray.length > 0 ? genreArray.map(id => `genres = (${id})`).join(' & ') : '';
+    const themeConditions = themeArray.length > 0 ? themeArray.map(id => `themes = (${id})`).join(' & ') : '';
+    const platformConditions = platformArray.length > 0 ? platformArray.map(id => `platforms = (${id})`).join(' & ') : '';
+
+    // Combine the genre and theme conditions if they exist
+    const conditions = [genreConditions, themeConditions, platformConditions].filter(Boolean).join(' & ');
+
+    // Add the condition for total_rating_count > 50
+    const ratingCondition = 'total_rating_count > 50';
+
+    // Construct the query
+    const query = `
+      fields name, cover.image_id, total_rating_count;
+      where ${conditions ? conditions + ' & ' + ratingCondition : ratingCondition};
+      sort total_rating desc;
+      limit 10;
+    `;
+
+    return fetchFromIGDB('games', query);
+}
+
+
+
+
+
 

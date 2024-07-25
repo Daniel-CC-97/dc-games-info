@@ -12,7 +12,7 @@ export default async function GamesList({ title, fetchFunction }: GamesListProps
 
   return (
     <div className="flex flex-col gap-2 overflow-hidden">
-      <h1 className="font-bold text-xl">{title}</h1>
+      <h1 className="font-bold text-2xl">{title}</h1>
       <ul className="flex gap-2 lg:gap-4 overflow-x-auto">
         {games.length > 0 ? (
           games.map((game: Game) => (

@@ -1,4 +1,4 @@
-import { fetchThemes } from '@/lib/api';
+import { fetchThemesById } from '@/lib/api';
 
 interface GameThemesProps {
   themes: number[];
@@ -6,7 +6,7 @@ interface GameThemesProps {
 
 export default async function GameThemes({ themes }: GameThemesProps) {
   try {
-    const themesData = await fetchThemes(themes);
+    const themesData = await fetchThemesById(themes);
     
     if (!themesData || themesData.length === 0) {
       return <p>No themes available</p>;
