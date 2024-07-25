@@ -214,8 +214,8 @@ export default function FindMyGame() {
                     <h2 className="text-xl font-semibold mb-2">Games</h2>
                     <ul className='flex gap-2 lg:gap-4 overflow-x-auto'>
                     {games.map((game) => (
-                        <Link href={`/game/${game.id}`} passHref>
-                            <li key={game.id} className="flex flex-col items-center">
+                        <li key={game.id} className="flex flex-col items-center">
+                            <Link href={`/game/${game.id}`} passHref>
                                 {game.cover?.image_id && (
                                     <div className='relative w-cover-small h-cover-small lg:w-cover-large lg:h-cover-large'>
                                         <Image 
@@ -229,8 +229,8 @@ export default function FindMyGame() {
                                     </div>
                                 )}
                                 <span>{game.name}</span>
-                            </li>
-                        </Link>
+                            </Link>
+                        </li>
                     ))}
                     </ul>
                 </div>
