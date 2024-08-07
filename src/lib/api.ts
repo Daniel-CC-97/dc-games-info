@@ -221,6 +221,70 @@ export async function fetchPlatformsById(platformArray: number[]) {
     }
 }
 
+export async function fetchWebsitesById(websiteArray: number[]) {
+  const websiteIds = websiteArray.join(',');
+  const query = `
+  fields url;
+  where id = (${websiteIds});
+  `;
+
+  try {
+      const response = await fetch(`${API_BASE_URL}/websites`, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${IGDB_ACCESS_TOKEN}`,
+              'Client-ID': process.env.NEXT_PUBLIC_IGDB_CLIENT_ID as string,
+              'Content-Type': 'text/plain'
+          },
+          body: query
+      });
+
+      if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Failed to fetch websites: ${response.status} ${response.statusText} - ${errorText}`)
+      }
+
+      return response.json();
+
+  } catch (error) {
+      console.error('Error fetching websites: ', error)
+      throw error;
+  }
+}
+
+export async function fetchScreenshotsById(screenshotArray: number[]) {
+  const screenshotIds = screenshotArray.join(',');
+  const query = `
+  fields url;
+  where id = (${screenshotIds});
+  `;
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/screenshots`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${IGDB_ACCESS_TOKEN}`,
+        'Client-ID': process.env.NEXT_PUBLIC_IGDB_CLIENT_ID as string,
+        'Content-Type': 'text/plain'
+      },
+      body: query
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to fetch screenshots: ${response.status} ${response.statusText} - ${errorText}`);
+    }
+
+    return response.json();
+
+  } catch (error) {
+    console.error('Error fetching screenshots: ', error);
+    throw error;
+  }
+}
+
+
+
 async function fetchFromIGDB(endpoint: string, query: string) {
     try {
         const response = await fetch(`${API_BASE_URL}/${endpoint}`, {

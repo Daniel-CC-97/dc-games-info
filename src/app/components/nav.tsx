@@ -1,19 +1,20 @@
-// components/Navbar.js
 import Link from 'next/link';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   return (
-    <nav className="bg-gray-800 p-4 shadow-lg">
-      <div className="container flex gap-4 items-center">
-          <Link href="/">
-            <h1 className="text-3xl font-bold text-secondary">DC-Games-Info</h1>
-          </Link>
-          <Link href="/find-my-game">
-            <h4 className="text-white font-bold">Find My Perfect Game</h4>
-          </Link>
+    <nav className="bg-gray-800 px-1 py-4 lg:px-2 shadow-lg">
+      <div className="container flex items-center gap-6">
+        <Link href="/" className="text-3xl font-bold text-secondary">
+          DC Games
+        </Link>
+        <Link href="/find-my-game" className="text-white font-bold">
+          Find My Perfect Game
+        </Link>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+
+

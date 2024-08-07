@@ -4,29 +4,42 @@ interface GameThemesProps {
   themes: number[];
 }
 
-export default async function GameThemes({ themes }: GameThemesProps) {
-  try {
-    const themesData = await fetchThemesById(themes);
-    
-    if (!themesData || themesData.length === 0) {
-      return <p>No themes available</p>;
-    }
-
-    return (
-      <div>
-        <p className="font-bold">Themes:</p>
-        <div className="flex flex-wrap gap-2"> {/* Flex container for inline display */}
-          {themesData.map((theme: { name: string }, index: number) => (
-            <span key={index} className="bg-darkGrey text-white px-2 py-1 rounded">
-              {theme.name}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  } catch (error) {
-    console.error('Error fetching themes:', error);
-    return <p>Error loading themes</p>;
-  }
+interface Theme {
+  id: number;
+  name: string;
 }
 
+const GameThemes = async ({ themes }: GameThemesProps) => {
+  let themesData: Theme[] = [];
+  let error: string | null = null;
+
+  try {
+    themesData = await fetchThemesById(themes);
+  } catch (err) {
+    console.error('Error fetching themes:', err);
+    error = 'Error loading themes';
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (themesData.length === 0) {
+    return <p>No themes available</p>;
+  }
+
+  return (
+    <div className="text-lg">
+      <p className="font-bold text-xl">Themes</p>
+      <div className="flex flex-wrap gap-2">
+        {themesData.map((theme) => (
+          <span key={theme.id} className="bg-darkGrey text-white px-2 py-1 rounded">
+            {theme.name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default GameThemes;

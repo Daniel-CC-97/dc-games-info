@@ -8,3 +8,7 @@ export interface Game {
   artworks?: number[];
 }
   
+export interface Screenshot {
+  id: number;
+  url: string;
+}

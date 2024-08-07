@@ -21,7 +21,6 @@ const config: Config = {
         silver: '#D1D5DB', // Silver
         darkGrey: '#1a2330', // Dark grey for more variety
       },
-    },
       width: {
         'cover-small': '150px',
         'cover-large': '300px',
@@ -30,6 +29,7 @@ const config: Config = {
         'cover-small': '200px',
         'cover-large': '400px',
       },
+    },
   },
   plugins: [],
 };

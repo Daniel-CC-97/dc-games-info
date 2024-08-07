@@ -1,19 +1,32 @@
+// app/page.tsx
+import Navbar from './components/nav';
 import GamesList from './components/games-list';
 import { fetchTopGames, fetchNewestGames, fetchTopMultiplayerGames, fetchTopCoopGames } from '@/lib/api';
-import Navbar from './components/nav';
 
+const Home = async () => {
+  // Fetch data server-side
+  const [topGames, newestGames, topMultiplayerGames, topCoopGames] = await Promise.all([
+    fetchTopGames(),
+    fetchNewestGames(),
+    fetchTopMultiplayerGames(),
+    fetchTopCoopGames(),
+  ]);
 
-const Home: React.FC = () => {
+  const gamesListData = [
+    { title: 'Top 10 Games', games: topGames },
+    { title: 'New Games', games: newestGames },
+    { title: 'Top 10 Multiplayer Games', games: topMultiplayerGames },
+    { title: 'Top 10 Coop Games', games: topCoopGames },
+  ];
 
   return (
     <div>
-          <Navbar></Navbar>
-        <div className="p-1 lg:p-2 flex flex-col gap-4 overflow-hidden">
-          <GamesList title='Top 10 Games' fetchFunction={fetchTopGames}></GamesList>
-          <GamesList title='New Games' fetchFunction={fetchNewestGames}></GamesList>
-          <GamesList title='Top 10 Multiplayer Games' fetchFunction={fetchTopMultiplayerGames}></GamesList>
-          <GamesList title='Top 10 Coop Games' fetchFunction={fetchTopCoopGames}></GamesList>
-        </div>
+      <Navbar />
+      <div className="p-1 lg:p-2 flex flex-col gap-4 overflow-hidden">
+        {gamesListData.map(({ title, games }) => (
+          <GamesList key={title} title={title} games={games} />
+        ))}
+      </div>
     </div>
   );
 };
